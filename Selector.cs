@@ -50,7 +50,7 @@ namespace ConsoleApp1
                 if (str[i].StartsWith('#'))
                 {
                     if (!str[i].Contains('.'))
-                        newSelector.Id = str[i];
+                        newSelector.Id = str[i].Substring(str[i].IndexOf('#')+1);
                     else
                     {
                         ch= str[i].Substring(1, str[i].IndexOf('.')-1);

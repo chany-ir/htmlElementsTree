@@ -6,12 +6,11 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-// https://hebrewbooks.org/
-https://netfree.link/shortcuts/
+//div div.infont div#too-slow
 var html1 = await CreateHtmlElementTree("https://netfree.link/shortcuts/");
 PrintHtmlElement(html1, 0);
-var s = Selector.Create("div div.infont div a");
-var temp1 = html1.SearchBySelector(s);
+var s = Selector.Create("div.infont");
+var search = html1.SearchBySelector(s);
 //Function to print details of an HTML element from the hashSet
 static void PrintHtmlElementFromHashSet(HashSet<HtmlElement> element)
 {
@@ -49,7 +48,7 @@ async Task<HtmlElement> CreateHtmlElementTree(string url)
     // Get the HTML content of the page as a string
     var html = await response.Content.ReadAsStringAsync();
     // Print the raw HTML content for debugging
-    Console.WriteLine(html);
+    //Console.WriteLine(html);
     // Clean up the HTML by replacing multiple spaces with a single space
     var cleanhtml = new Regex(@"(?<=\S)\s+(?=\S)").Replace(html, " ");
     // Split the cleaned HTML into individual tags
@@ -93,7 +92,7 @@ async Task<HtmlElement> CreateHtmlElementTree(string url)
                 for (int i = 0; i < attributes.Count(); i++)
                 {
                     if (attributes[i].Value.StartsWith("id"))
-                        newElement.Id = attributes[i].Value.Substring(3);
+                        newElement.Id = attributes[i].Value.Substring(3).Trim('"').TrimEnd('\\');
                     else if (attributes[i].Value.StartsWith("class"))
                     {
                         var c = attributes[i].Value.Substring(7).Trim('"').TrimEnd('\\');
@@ -133,4 +132,4 @@ async Task<HtmlElement> CreateHtmlElementTree(string url)
     // Return the root element after finishing parsing the page
     return root;
 }
-PrintHtmlElementFromHashSet(temp1);
+PrintHtmlElementFromHashSet(search);

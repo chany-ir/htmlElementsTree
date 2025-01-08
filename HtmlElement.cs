@@ -28,6 +28,16 @@ namespace ConsoleApp1
             Children = new List<HtmlElement>();
 
         }
+        // Function to return all ancestor elements 
+        public IEnumerable<HtmlElement> Ancestors()
+        {
+
+            while (this.Parent != null)
+            {
+                yield return this.Parent;
+
+            }
+        }
         //  Function to return the current element with all its children using yield return
         public IEnumerable<HtmlElement> Descendants()
         {
@@ -42,16 +52,6 @@ namespace ConsoleApp1
                     queue.Enqueue(child);
                 }
             }    
-        }
-        // Function to return all ancestor elements 
-        public IEnumerable<HtmlElement> Ancestors()
-        {
-           
-            while (this.Parent != null)
-            {
-                yield return this.Parent;
-
-            }
         }
         // Method to search for elements that match a specific CSS selector
         // Uses recursion to explore descendants and match selectors
